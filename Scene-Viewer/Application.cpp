@@ -9,7 +9,7 @@ int main() {
 		Window window;
 		Mesh::initVAO();
 		Shader shader("solidColor");
-		Model model("nanosuit.obj");
+		Model model("nanosuit/nanosuit.obj");
 
 		while(window.isOpen()) {
 			model.draw(shader);
