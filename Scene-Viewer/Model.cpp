@@ -37,6 +37,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 		if(mesh->mTextureCoords[0])
 			vertex.texCoords = {mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y};
 		else vertex.texCoords = glm::vec2(0, 0);
+		vertices.push_back(vertex);
 	}
 
 	for(unsigned int i = 0; i < mesh->mNumFaces; i++) {
