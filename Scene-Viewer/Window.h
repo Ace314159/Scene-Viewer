@@ -4,14 +4,13 @@
 #include <GLFW/glfw3.h>
 
 class Window {
-private:
-	GLFWwindow* window;
 public:
 	Window();
 	~Window();
 
 	inline bool isOpen() { return !glfwWindowShouldClose(window); };
 	inline void swapBuffers() { glfwSwapBuffers(window); };
+	GLFWwindow* window;
 };
 
 inline void APIENTRY glDebugCallback(GLenum source, GLenum mType, GLuint id, GLenum severity, GLsizei length,
