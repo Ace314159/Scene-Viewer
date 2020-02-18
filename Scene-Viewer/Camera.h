@@ -18,7 +18,7 @@ private:
 	GLFWwindow* window;
 
 	GLuint UBO;
-	const glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f,
+	glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f,
 		0.1f, 2000.0f);
 	// Makes View Matrix
 	glm::mat4 view;
@@ -38,6 +38,7 @@ public:
 	Camera(GLFWwindow* window);
 	void update();
 	void updateMousePos(double x, double y);
+	void updateWindowSize(double width, double height);
 	void enable() { enabled = true; glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); };
 	void disable() { enabled = false; glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); };
 };

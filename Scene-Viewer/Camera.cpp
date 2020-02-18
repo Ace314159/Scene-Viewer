@@ -76,3 +76,8 @@ void Camera::updateMousePos(double x, double y) {
 		cos(glm::radians(pitch)) * sin(glm::radians(yaw))
 	));
 }
+
+void Camera::updateWindowSize(double width, double height) {
+	projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 2000.0f);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(projection));
+}

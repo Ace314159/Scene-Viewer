@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Window.h"
+#include "Camera.h"
 
 Window::Window() {
 	glfwInit();
@@ -34,6 +35,7 @@ Window::Window() {
 	glViewport(0, 0, 800, 600);
 	glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height) {
 		glViewport(0, 0, width, height);
+		((Camera*)(glfwGetWindowUserPointer(window)))->updateWindowSize(width, height);
 	});
 }
 
