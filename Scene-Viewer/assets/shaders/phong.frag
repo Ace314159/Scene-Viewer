@@ -17,7 +17,7 @@ struct Material {
 };
 uniform Material material;
 
-vec3 lightDir = -normalize(vec3(0, -1, 0));
+vec3 lightDir = -normalize(vec3(-1, -1, -1));
 float lightAmbient = 0.3;
 vec3 lightColor = vec3(1, 1, 1);
 float specularStrength = 0.5;
