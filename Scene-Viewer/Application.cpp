@@ -12,8 +12,8 @@ int main() {
 		Camera camera(window.window);
 
 		Mesh::initVAO();
-		Model model("nanosuit/nanosuit.obj");
-		Shader shader("solidColor");
+		Model model("nanosuit.obj");
+		Shader shader("basicTexture");
 
 		while(window.isOpen()) {
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -25,7 +25,7 @@ int main() {
 			window.swapBuffers();
 			glfwPollEvents();
 		}
-	} catch(const std::exception & e) {
+	} catch(const std::bad_alloc & e) {
 		std::cout << e.what() << std::endl;
 		throw e;
 	}

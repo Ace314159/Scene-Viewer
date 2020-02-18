@@ -39,6 +39,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -59,12 +62,15 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\solidColor.vert">
+    <None Include="assets\shaders\basicTexture.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="assets\shaders\solidColor.frag">
+    <None Include="assets\shaders\basicTexture.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

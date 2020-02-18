@@ -11,11 +11,6 @@ struct Vertex {
 	glm::vec2 texCoords;
 };
 
-struct Texture {
-	unsigned int ID;
-	std::string type;
-};
-
 class Mesh {
 private:
 	GLuint VBO, EBO;
@@ -25,10 +20,9 @@ public:
 
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
+	GLuint textureID;
 
-	Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, 
-		const std::vector<Texture>& textures);
+	Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, GLuint textureID);
 	void draw(const Shader& shader);
 };
 

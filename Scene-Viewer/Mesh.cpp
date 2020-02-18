@@ -19,11 +19,10 @@ void Mesh::initVAO() {
 	glVertexArrayAttribBinding(VAO, 2, 0);
 }
 
-Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices,
-const std::vector<Texture>& textures) {
+Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, GLuint textureID) {
 	this->vertices = vertices;
 	this->indices = indices;
-	this->textures = textures;
+	this->textureID = textureID;
 
 	glCreateBuffers(1, &VBO);
 	glCreateBuffers(1, &EBO);
@@ -33,10 +32,14 @@ const std::vector<Texture>& textures) {
 }
 
 void Mesh::draw(const Shader& shader) {
+	shader.use();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	shader.setInt("tex", 0);
+
 	glBindVertexArray(VAO);
 	glVertexArrayVertexBuffer(VAO, 0, VBO, 0, sizeof(Vertex));
 	glVertexArrayElementBuffer(VAO, EBO);
 
-	shader.use();
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, (GLsizei)indices.size(), GL_UNSIGNED_INT, 0);
 }

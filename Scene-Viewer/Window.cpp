@@ -10,7 +10,6 @@ Window::Window() {
 	window = glfwCreateWindow(800, 600, "Model Viewer", nullptr, nullptr);
 	if(window == nullptr) {
 		throw std::runtime_error("Failed to create GLFW window!");
-		glfwTerminate();
 	}
 	glfwMakeContextCurrent(window);
 
@@ -31,6 +30,7 @@ Window::Window() {
 	});
 #endif
 	
+	glEnable(GL_DEPTH_TEST);
 	glViewport(0, 0, 800, 600);
 	glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height) {
 		glViewport(0, 0, width, height);

@@ -1,12 +1,16 @@
 #include "stdafx.h"
 #include "Model.h"
+#include "Texture.h"
 
-Model::Model(const char* name) {
+Model::Model(const std::string& fileName) {
+	std::string name = fileName.substr(0, fileName.find_last_of('.'));
+	dir = "assets/scenes/" + name + "/";
+
 	Assimp::Importer import;
-	const aiScene* scene = import.ReadFile("assets/scenes/" + std::string(name), aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene* scene = import.ReadFile(dir + fileName, aiProcess_Triangulate | aiProcess_FlipUVs);
 
 	if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-		throw std::runtime_error("Model " + std::string(name) + " failed to load: " + import.GetErrorString());
+		throw std::runtime_error("Model " + name + " failed to load: " + import.GetErrorString());
 	}
 	
 	processNode(scene->mRootNode, scene);
@@ -26,26 +30,33 @@ void Model::processNode(aiNode* node, const aiScene* scene) {
 Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
+	GLuint textureID;
 
 	for(unsigned int i = 0; i < mesh->mNumVertices; i++) {
 		Vertex vertex = {
 			{mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z},
 			{mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z},
+			{0, 0},
 		};
 		
 		if(mesh->mTextureCoords[0])
 			vertex.texCoords = {mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y};
-		else vertex.texCoords = glm::vec2(0, 0);
 		vertices.push_back(vertex);
 	}
 
 	for(unsigned int i = 0; i < mesh->mNumFaces; i++) {
 		aiFace face = mesh->mFaces[i];
-		// indices.insert(indices.end(), face.mIndices, face.mIndices + face.mNumIndices);
-		for(unsigned int j = 0; j < face.mNumIndices; j++)
-			indices.push_back(face.mIndices[j]);
+		indices.insert(indices.end(), face.mIndices, face.mIndices + face.mNumIndices);
 	}
 
-	return {vertices, indices, textures};
+	if(mesh->mMaterialIndex >= 0) {
+		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+		if(material->GetTextureCount(aiTextureType_DIFFUSE) >= 0) {
+			aiString name;
+			material->GetTexture(aiTextureType_DIFFUSE, 0, &name);
+			textureID = Texture::getTexture((dir + std::string(name.C_Str())).c_str());
+		}
+	}
+
+	return {vertices, indices, textureID};
 }
