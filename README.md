@@ -1,0 +1,1 @@
+Renders scenes with phong shading
