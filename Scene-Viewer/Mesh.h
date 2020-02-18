@@ -17,7 +17,7 @@ struct TextureData {
 };
 
 class Mesh {
-private:
+protected:
 	GLuint VBO, EBO;
 public:
 	static GLuint VAO;
@@ -29,6 +29,6 @@ public:
 
 	Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices,
 		std::vector<TextureData> textures);
-	void draw(const Shader& shader);
+	virtual void draw(const Shader& shader);
 };
 

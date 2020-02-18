@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "Model.h"
 #include "Shader.h"
+#include "Sphere.h"
 #include "Window.h"
 
 int main() {
@@ -12,6 +13,7 @@ int main() {
 
 		Mesh::initVAO();
 		Model model("nanosuit.obj");
+		Sphere sphere;
 		Shader shader("phong");
 
 		while(window.isOpen()) {
@@ -20,6 +22,7 @@ int main() {
 
 			camera.update();
 			model.draw(shader);
+			sphere.draw(shader);
 
 			window.swapBuffers();
 			glfwPollEvents();
