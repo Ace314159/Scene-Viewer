@@ -13,6 +13,8 @@ private:
 	std::vector<Mesh> meshes;
 	void processNode(aiNode *node, const aiScene *scene);
 	Mesh processMesh(aiMesh* mesh, const aiScene *scene);
+	std::vector<TextureData> loadMaterialTexture(aiMaterial* mat, aiTextureType type,
+		const std::string& typeName);
 public:
 	Model(const std::string& fileName);
 	inline void draw(const Shader& shader) {

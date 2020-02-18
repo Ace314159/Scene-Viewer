@@ -30,7 +30,7 @@ void Model::processNode(aiNode* node, const aiScene* scene) {
 Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	GLuint textureID;
+	std::vector<TextureData> textures;
 
 	for(unsigned int i = 0; i < mesh->mNumVertices; i++) {
 		Vertex vertex = {
@@ -51,12 +51,23 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 
 	if(mesh->mMaterialIndex >= 0) {
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-		if(material->GetTextureCount(aiTextureType_DIFFUSE) >= 0) {
-			aiString name;
-			material->GetTexture(aiTextureType_DIFFUSE, 0, &name);
-			textureID = Texture::getTexture((dir + std::string(name.C_Str())).c_str());
-		}
+		std::vector<TextureData> diffuseMaps = loadMaterialTexture(material, aiTextureType_DIFFUSE, "diffuse");
+		std::vector<TextureData> specularMaps = loadMaterialTexture(material, aiTextureType_SPECULAR,
+			"specular");
+		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 	}
 
-	return {vertices, indices, textureID};
+	return {vertices, indices, textures};
+}
+
+std::vector<TextureData> Model::loadMaterialTexture(aiMaterial* mat, aiTextureType type,
+	const std::string& typeName) {
+	std::vector<TextureData> textures;
+	for(unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
+		aiString path;
+		mat->GetTexture(type, i, &path);
+		textures.push_back({Texture::getTexture(dir + std::string(path.C_Str())), typeName});
+	}
+	return textures;
 }

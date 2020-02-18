@@ -19,10 +19,11 @@ void Mesh::initVAO() {
 	glVertexArrayAttribBinding(VAO, 2, 0);
 }
 
-Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, GLuint textureID) {
+Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices,
+	std::vector<TextureData> textures) {
 	this->vertices = vertices;
 	this->indices = indices;
-	this->textureID = textureID;
+	this->textures = textures;
 
 	glCreateBuffers(1, &VBO);
 	glCreateBuffers(1, &EBO);
@@ -33,9 +34,17 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>&
 
 void Mesh::draw(const Shader& shader) {
 	shader.use();
+	unsigned int diffuseN = 0;
+	unsigned int specularN = 0;
+	for(unsigned int i = 0; i < textures.size(); i++) {
+		glActiveTexture(GL_TEXTURE0 + i);
+		std::string num;
+		if(textures[i].type == "diffuse") num = std::to_string(diffuseN++);
+		else if(textures[i].type == "specular") num = std::to_string(specularN++);
+		shader.setInt(("material." + textures[i].type + num).c_str(), i);
+		glBindTexture(GL_TEXTURE_2D, textures[i].ID);
+	}
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	shader.setInt("tex", 0);
 
 	glBindVertexArray(VAO);
 	glVertexArrayVertexBuffer(VAO, 0, VBO, 0, sizeof(Vertex));

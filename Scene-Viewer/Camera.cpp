@@ -18,11 +18,10 @@ Camera::Camera(GLFWwindow* window) : window(window) {
 	glGenBuffers(1, &UBO);
 
 	glBindBuffer(GL_UNIFORM_BUFFER, UBO);
-	glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4), nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4) + sizeof(glm::vec3), nullptr, GL_DYNAMIC_DRAW);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(projection));
 
-
-	glBindBufferRange(GL_UNIFORM_BUFFER, 0, UBO, 0, 2 * sizeof(glm::mat4));
+	glBindBufferRange(GL_UNIFORM_BUFFER, 0, UBO, 0, 2 * sizeof(glm::mat4) + sizeof(glm::vec3));
 	enable();
 }
 
@@ -55,7 +54,8 @@ void Camera::update() {
 
 	view = glm::lookAt(pos, pos + front, up);
 
-	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
+	subUniformBuffer buffer = { view, pos };
+	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(subUniformBuffer), &buffer);
 }
 
 void Camera::updateMousePos(double x, double y) {

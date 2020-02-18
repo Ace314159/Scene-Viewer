@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Camera.h"
-#include "Mesh.h"
 #include "Model.h"
 #include "Shader.h"
 #include "Window.h"
@@ -13,7 +12,7 @@ int main() {
 
 		Mesh::initVAO();
 		Model model("nanosuit.obj");
-		Shader shader("basicTexture");
+		Shader shader("phong");
 
 		while(window.isOpen()) {
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

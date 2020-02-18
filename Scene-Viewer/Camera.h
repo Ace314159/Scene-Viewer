@@ -10,6 +10,11 @@
 
 class Camera {
 private:
+	struct subUniformBuffer {
+		glm::mat4 view;
+		glm::vec3 pos;
+	};
+
 	GLFWwindow* window;
 
 	GLuint UBO;
