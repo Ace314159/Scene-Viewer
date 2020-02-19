@@ -14,15 +14,27 @@ int main() {
 		Mesh::initVAO();
 		Model model("nanosuit.obj");
 		Sphere sphere;
-		Shader shader("phong");
+		Shader phong("phong");
+		Shader pbr("pbr");
+
+		glm::vec3 lightPos(0, 5, 0);
+		glm::vec3 lightColor(1, 1, 1);
+
+		pbr.use();
+		pbr.setVec3("albedo", glm::vec3(0.5, 0, 0));
+		pbr.setFloat("ao", 1);
+		pbr.setFloat("metallic", 0.5);
+		pbr.setFloat("roughness", 0.5);
+		pbr.setVec3("lightPos", lightPos);
+		pbr.setVec3("lightColor", lightColor);
 
 		while(window.isOpen()) {
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			camera.update();
-			model.draw(shader);
-			sphere.draw(shader);
+			model.draw(phong);
+			sphere.draw(pbr);
 
 			window.swapBuffers();
 			glfwPollEvents();

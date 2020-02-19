@@ -79,5 +79,11 @@
     <None Include="assets\shaders\phong.frag">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="assets\shaders\pbr.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\pbr.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

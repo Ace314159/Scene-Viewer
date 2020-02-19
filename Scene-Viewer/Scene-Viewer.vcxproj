@@ -209,6 +209,8 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\shaders\pbr.frag" />
+    <None Include="assets\shaders\pbr.vert" />
     <None Include="assets\shaders\phong.frag" />
     <None Include="assets\shaders\phong.vert" />
   </ItemGroup>
